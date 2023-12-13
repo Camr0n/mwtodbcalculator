@@ -1,5 +1,16 @@
 <!DOCTYPE html>
 <html>
+<!--S U I T S S
+
+    See Whats out there
+    Understand whats out there
+    Intent of people searching
+    Title - 
+    Sections -
+    Slug - 
+
+
+-->
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SB1QVLQ9Q0"></script>
@@ -41,7 +52,7 @@
         }
 
         function displaymW() {
-            document.getElementById("mwLabel").innerHTML = 'mW';
+            //document.getElementById("mwLabel").innerHTML = 'mW';
             // Get the value from the input field
             var mw = parseFloat(document.getElementById("mwInput").value);
 
@@ -89,55 +100,53 @@
 <body>
     
 
-    
-    <h1>mW to dBm Converter 2</h1>
-    <p id="subheading"> Use this simple calculator to find the appropriate power reference for your application.</p>
+
     
     <div class="container">
+        <div class = "item" id = "headline">
+            <h1>mW to dBm Converter 2</h1>
+        </div>
+        <div class="item" id = "sub-headline">
+            <p> Use this simple calculator to find the appropriate power reference for your application.</p>
+        </div>
         <div class="item">
             <input class="btn" type="number" inputmode="numeric" pattern="[0-9]*" id="mwInput" placeholder="1000 mW" oninput="displaymW()" onfocus="clearInput('mwInput')">
-            
         </div>
         <div class="item">
             <input class="btn" type="number" inputmode="numeric" pattern="[0-9]*" id="dbmInput" placeholder="30 dBm" oninput="displaydBm()" onfocus="clearInput('dbmInput')"> 
         </div>
-        <div class="item" id = "results"></div>
+        <div class="item" id = "results">
+            <label id="mwLabel" for="mwInput"></label>
+        </div>
       </div>
 
-    <div class="container">
+    <!-- <div class="container">
         <div class="item">
             <div class="MuiFormControl-root MuiTextField-root">
-                <!-- <select name="unit" id="select-unit">
+                 <select name="unit" id="select-unit">
                     <option value="Power in µW">Power in µW</option>
                     <option value="mwInput">Power in mW</option>
                     <option value="Power in W">Power in W</option>
                     <option value="Power in kW">Power in kW</option>
                   </select> -->
                 
-                <label id="mwLabel" for="mwInput"></label>
+                
             </div>
         </div>    
-        
-        <div class="item">
-            <div class="MuiFormControl-root MuiTextField-root">
+    </div>
+     
+            
                 
-                    <label id="dbmLabel" for="dbmInput"></label>
+                    <!-- <p>
+                        \[P_{mW}=1mW \times 10^{P_{dBm} \over 10}\]
+                    </p>
                 </div>
-            </div>
-        </div>
-    
-            <div class="item">
-                
-                <p>
-                    \[P_{mW}=1mW \times 10^{P_{dBm} \over 10}\]
-                </p>
-            </div>
-            <div class="item">
-                
-                <p>
-                    \[P_{dBm}=10log_{10}\left({P_{mW}\over 1mW}\right)\] 
-                </p>
-            </div>
+                <div class="item">
+                    
+                    <p>
+                        \[P_{dBm}=10log_{10}\left({P_{mW}\over 1mW}\right)\] 
+                    </p> -->
+            
     </div>
       
 
