@@ -1,68 +1,63 @@
 <!DOCTYPE html>
 <html>
-<!--S U I T S S
 
-    See Whats out there
-    Understand whats out there
-    Intent of people searching
-    Title - 
-    Sections -
-    Slug - 
-
-
--->
 <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SB1QVLQ9Q0"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-SB1QVLQ9Q0');
-    </script>
+     
     <link rel="stylesheet" href="style copy.css">
     <title>	Convert dBm to mW Calculator, db to mW Conversion Chart, db to mW Excel Formula, db to mW Math Formula </title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script type="text/javascript" id="MathJax-script" async
         src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
         </script>
-    <script type="text/javascript">d 
+    <script type="text/javascript"> 
+        
         function adjustUnit(value) {
+            console.log("value adjusted");
             var units = ["fW", "pW", "nW", "µW", "mW", "W", "kW", "MW", "GW", "TW"];
             var exponent = Math.floor(Math.log10(value) / 3);
             var adjustedValue = value / Math.pow(1000, exponent);
             document.getElementById("mwLabel").innerHTML = units[exponent + 4];
-            
+            console.log("value adjusted");
             return adjustedValue.toFixed(3) + " " + units[exponent + 4];
         }
 
         function displaydBm() {
             // Get the value from the input field
             var dbm = parseFloat(document.getElementById("dbmInput").value);
-
+            // console.log("dbm");
             // Convert dBm to mW
             var mw = Math.pow(10, dbm / 10)
+            // console.log(mw);
 
             // Display the result
-            counter += 1;
-            document.getElementById("mwInput").value = stripValues(adjustUnit(mw));
+            updateResults(mw, dbm);
 
-            document.getElementById("results").innerHTML = mw.toFixed(3) + " mW is equal to " + dbm.toFixed(3) + " dB" + "<br>" + document.getElementById("results").innerHTML;
+            //change mW input field when dBm input field is changed
+            document.getElementById("mwInput").value = stripValues((mw));
+
+                   
         }
 
         function displaymW() {
             //document.getElementById("mwLabel").innerHTML = 'mW';
             // Get the value from the input field
             var mw = parseFloat(document.getElementById("mwInput").value);
+            console.log(mw);
 
             // Convert mW to dBm
             var dbm = 10 * Math.log10(mw);
+            console.log(dbm);
             
+            updateResults(mw, dbm);
+             //change dBm input field when mW input field is changed
+            document.getElementById("dbmInput").value = dbm.toFixed(3);
+        }
+
+        function updateResults(newmW, newdBm) {
             // Create a new div for the result
             var newResult = document.createElement("div");
             newResult.className = "item";
-            newResult.innerHTML = mw.toFixed(3) + " mW is equal to " + dbm.toFixed(3) + " dB";
+            newResult.innerHTML = newmW.toFixed(3) + " mW is equal to " + newdBm.toFixed(3) + " dBm";
 
             // Get the current results div
             var results = document.getElementById("results");
@@ -75,12 +70,13 @@
 
             // Apply zebra effect
             for (var i = 0; i < children.length; i++) {
-            if (i % 2 == 0) {
-                children[i].style.backgroundColor = "white";
-            } else {
-                children[i].style.backgroundColor = "#a3a5a8";
+                if (i % 2 == 0) {
+                    children[i].style.backgroundColor = "white";
+                } else {
+                    children[i].style.backgroundColor = "#a3a5a8";
+                }
             }
-            }
+
         }
 
         function clearInput(inputId) {
@@ -94,6 +90,7 @@
             return (str.replace(/[^\d.-]/g, "") || []);
         }
 
+       
     </script>
 </head>
 
@@ -104,16 +101,18 @@
     
     <div class="container">
         <div class = "item" id = "headline">
-            <h1>mW to dBm Converter 2</h1>
+            <h1>mW to dBm Converter</h1>
         </div>
         <div class="item" id = "sub-headline">
             <p> Use this simple calculator to find the appropriate power reference for your application.</p>
         </div>
         <div class="item">
+            <!-- <span id="mwLabel"></span> -->
             <input class="btn" type="number" inputmode="numeric" pattern="[0-9]*" id="mwInput" placeholder="1000 mW" oninput="displaymW()" onfocus="clearInput('mwInput')">
         </div>
         <div class="item">
             <input class="btn" type="number" inputmode="numeric" pattern="[0-9]*" id="dbmInput" placeholder="30 dBm" oninput="displaydBm()" onfocus="clearInput('dbmInput')"> 
+            <!-- <span id="dbmUnit">dBm</span> -->
         </div>
         <div class="item" id = "results">
             <label id="mwLabel" for="mwInput"></label>
