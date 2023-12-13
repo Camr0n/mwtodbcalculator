@@ -1,0 +1,22 @@
+.flex-container {
+    display: flex;
+    flex-direction: column; /* Stack rows vertically */
+    width: 300px; /* Adjust the width as needed */
+  }
+  
+  .flex-row {
+    display: flex;
+    justify-content: space-between; /* Spread items across the row */
+  }
+  
+  .flex-item {
+    flex: 1; /* Each item takes an equal amount of available space */
+    height: 150px; /* Adjust the height as needed */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #3498db; /* Background color for the items */
+    margin: 5px; /* Add margin for spacing */
+    font-size: 24px; /* Adjust the font size as needed */
+  }
+  
