@@ -1,1 +1,146 @@
-Test
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SB1QVLQ9Q0"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-SB1QVLQ9Q0');
+    </script>
+    <link rel="stylesheet" href="style copy.css">
+    <title>	Convert dBm to mW Calculator, db to mW Conversion Chart, db to mW Excel Formula, db to mW Math Formula </title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+        </script>
+    <script type="text/javascript">d 
+        function adjustUnit(value) {
+            var units = ["fW", "pW", "nW", "µW", "mW", "W", "kW", "MW", "GW", "TW"];
+            var exponent = Math.floor(Math.log10(value) / 3);
+            var adjustedValue = value / Math.pow(1000, exponent);
+            document.getElementById("mwLabel").innerHTML = units[exponent + 4];
+            
+            return adjustedValue.toFixed(3) + " " + units[exponent + 4];
+        }
+
+        function displaydBm() {
+            // Get the value from the input field
+            var dbm = parseFloat(document.getElementById("dbmInput").value);
+
+            // Convert dBm to mW
+            var mw = Math.pow(10, dbm / 10)
+
+            // Display the result
+            counter += 1;
+            document.getElementById("mwInput").value = stripValues(adjustUnit(mw));
+
+            document.getElementById("results").innerHTML = mw.toFixed(3) + " mW is equal to " + dbm.toFixed(3) + " dB" + "<br>" + document.getElementById("results").innerHTML;
+        }
+
+        function displaymW() {
+            document.getElementById("mwLabel").innerHTML = 'mW';
+            // Get the value from the input field
+            var mw = parseFloat(document.getElementById("mwInput").value);
+
+            // Convert mW to dBm
+            var dbm = 10 * Math.log10(mw);
+            
+            // Create a new div for the result
+            var newResult = document.createElement("div");
+            newResult.innerHTML = mw.toFixed(3) + " mW is equal to " + dbm.toFixed(3) + " dB";
+
+            // Get the current results div
+            var results = document.getElementById("results");
+
+            // Prepend the new result
+            results.insertBefore(newResult, results.firstChild);
+
+            // Get all the children of the results div
+            var children = results.children;
+
+            // Apply zebra effect
+            for (var i = 0; i < children.length; i++) {
+            if (i % 2 == 0) {
+                children[i].style.backgroundColor = "white";
+            } else {
+                children[i].style.backgroundColor = "#a3a5a8";
+            }
+            }
+        }
+
+        function clearInput(inputId) {
+            document.getElementById(inputId).value = '';
+        }
+
+        // Function to get non-numeric numbers
+        // and display output
+        function stripValues(val) {
+            let str = String(val);
+            return (str.replace(/[^\d.-]/g, "") || []);
+        }
+
+    </script>
+</head>
+
+<body>
+    
+
+    
+    <h1>mW to dBm Converter 2</h1>
+    <p id="subheading"> Use this simple calculator to find the appropriate power reference for your application.</p>
+    
+    <div class="container">
+        <div class="item">
+            <input class="btn" type="number" inputmode="numeric" pattern="[0-9]*" id="mwInput" placeholder="1000 mW" oninput="displaymW()" onfocus="clearInput('mwInput')">
+            
+        </div>
+        <div class="item">
+            <input class="btn" type="number" inputmode="numeric" pattern="[0-9]*" id="dbmInput" placeholder="30 dBm" oninput="displaydBm()" onfocus="clearInput('dbmInput')"> 
+        </div>
+        <div class="item" id = "results"></div>
+      </div>
+
+    <div class="container">
+        <div class="item">
+            <div class="MuiFormControl-root MuiTextField-root">
+                <!-- <select name="unit" id="select-unit">
+                    <option value="Power in µW">Power in µW</option>
+                    <option value="mwInput">Power in mW</option>
+                    <option value="Power in W">Power in W</option>
+                    <option value="Power in kW">Power in kW</option>
+                  </select> -->
+                
+                <label id="mwLabel" for="mwInput"></label>
+            </div>
+        </div>    
+        
+        <div class="item">
+            <div class="MuiFormControl-root MuiTextField-root">
+                
+                    <label id="dbmLabel" for="dbmInput"></label>
+                </div>
+            </div>
+        </div>
+    
+            <div class="item">
+                
+                <p>
+                    \[P_{mW}=1mW \times 10^{P_{dBm} \over 10}\]
+                </p>
+            </div>
+            <div class="item">
+                
+                <p>
+                    \[P_{dBm}=10log_{10}\left({P_{mW}\over 1mW}\right)\] 
+                </p>
+            </div>
+    </div>
+      
+
+</body>
+
+</html>
