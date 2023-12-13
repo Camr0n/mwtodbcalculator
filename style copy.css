@@ -30,6 +30,14 @@ h1 {
 
 }
 
+.item-result {
+  height: 20px;
+  margin-top: px;
+  margin-bottom: px;
+  padding:10px 10px 10px 10px;
+
+}
+
 input {
   width: 100%;
   padding: 12px 20px;
