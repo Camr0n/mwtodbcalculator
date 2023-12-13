@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="style.css">
+  <title>Beam Divergence from Optical Fiber</title>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+  <script type="text/javascript">
+    function displayBeamSize() {
+      calculateBeamSize();
+      calculatePowerDensity();
+    }
+
+    function calculateBeamSize() {
+            mfr=5.25;//SMF-28
+            //distance in um, 1cm=10,000um
+            var distance = parseFloat(document.getElementById('distanceInput').value)*1e4;
+            var wavelength = parseFloat(document.getElementById('wavelengthInput').value)/1000; // Wavelength in micrometers
+            
+            // Calculate the beam size
+            var z0 = (Math.PI * mfr * mfr) / wavelength;
+            var beamSize = mfr * Math.sqrt(1 + (distance * distance) / (z0 * z0));
+            //convert um to mm
+            beamSize=(beamSize/1000).toFixed(4);
+            // Display the result
+            document.getElementById('beamInput').value = beamSize;
+    }
+
+    function calculatePowerDensity(){
+        var beamsize=parseFloat(document.getElementById('beamInput').value);
+        var power=parseFloat(document.getElementById('powerInput').value);
+
+        if (isNaN(beamsize) || isNaN(power)){
+          return;
+        }
+
+        //convert from mm to cm
+        beamsize=beamsize/10;
+        //convert from mW to W
+        power=power/1000;
+        var density=power/(Math.PI*Math.pow(beamsize,2));
+        density=density.toFixed(4);
+
+        //Check if power density is less than 0.1 and change button color accordingly
+          const dButton = document.getElementById('densityInput');
+          if (density < 0.1) {
+            dButton.style.border = '1px solid green';
+          } else {
+            dButton.style.border = '1px solid red'; 
+          }
+
+        // Display the result
+        document.getElementById('densityInput').value = density;
+    }
+      
+    function clearInput(inputId) {
+      document.getElementById(inputId).value = '';
+    }
+
+  </script>
+</head>
+
+<body>
+  <h1>Beam Divergence from Optical Fiber</h1>
+  <p>
+    Eye safety is a major concern when dealing with any laser, especially the invisible
+    ones that are typical of telecom applications. The most important factor in determining
+    whether a laser will cause injury is the energy density. This takes into account the length of time
+    you are exposed to the beam. The most conservative measure is actually power density, as this is the 
+    highest instantaneous exposure that can be tolerated over long time periods with negligible risk of damage.
+  </p>
+  <p>
+    Typically, beams coming from optical fibers are low risk due to the very fast
+    divergence of the beam, meaning that at any practical distance (a few cm or more) the
+    energy getting focussed onto your eye will be low enough to not cause damage. Damage thresholds
+    are highly dependent on the wavelength, power level, distance and type of fiber. 
+  </p>
+
+  <p>
+    The calculator below will determine the beam waist (radius) and eye safe distance from a SM optical fiber. 
+    We assume the fiber is SMF-28, with a MFD of \(10.5\mu m\).
+  </p>
+
+  <label for="wavelengthInput">Center Wavelength: </label>
+    <input class="btn" type="number" inputmode="numeric" pattern="[0-9]*" id="wavelengthInput"
+      placeholder="Enter wavelength (nm)" oninput="displayBeamSize()"  onfocus="clearInput('wavelengthInput')">
+    <label for="wavelengthInput">nm</label>
+  <h2>Beam Divergence</h2>
+  <div>
+    <label for="powerInput">Optical Power: </label>
+    <input class="btn" type="number" inputmode="numeric" pattern="[0-9]*" id="powerInput"
+      placeholder="Enter power (mW)" oninput="calculatePowerDensity()" onfocus="clearInput('powerInput')">
+    <label id="powerLabel" for="powerInput">mW </label>
+  </div>
+  <br/>
+
+  <div>
+    <label for="distanceInput">Distance from Endface: </label>
+    <input class="btn" type="number" inputmode="numeric" pattern="[0-9]*" id="distanceInput"
+      placeholder="Enter distance (cm)" oninput="displayBeamSize()" onfocus="clearInput('distanceInput')">
+    <label id="distanceLabel" for="distanceInput">cm </label>
+  </div>
+  <br/>
+
+  <p>
+    The ocular maximum permissible exposure (MPE) to a telecom laser is a power density of \(0.1 {W \over {cm^2}}\).
+  </p>
+  <div>
+    <label for="densityInput">Power Density: </label>
+    <input class="btn" type="number" inputmode="numeric" pattern="[0-9]*" id="densityInput"
+      placeholder="Enter density" onfocus="clearInput('densityInput')">
+    <label id="densityLabel" for="densityInput">\(W \over {cm}^2\) </label>
+  </div>
+  <br/>
+
+  <div>
+    <label for="beamInput">Beam Waist: </label>
+    <input class="btn" type="number" inputmode="numeric" pattern="[0-9]*" id="beamInput"
+      placeholder="Enter beam waist (mm)" oninput="displayDistance()" onfocus="clearInput('beamInput')">
+    <label id="beamLabel" for="beamInput">mm</label>
+  </div>
+
+  <!-- <div>
+    <h1>Beam Size Calculator</h1>
+    <label for="mfr">Select Initial Mode Field Radius (MFR):</label>
+    <select id="mfr">
+        <option value="5.25">5.25 μm</option>
+        <option value="6.0">6.0 μm</option>
+        <option value="7.0">7.0 μm</option>
+    </select>
+    <label for="distance">Enter Distance from Fiber (μm):</label>
+    <input type="number" id="distance" placeholder="Enter distance in micrometers">
+    <button onclick="calculateBeamSize()">Calculate Beam Size</button>
+    <div id="result"></div>
+  </div> -->
+
+
+  <p>
+    The beam waist \(\omega\) at a particular distance \(z\) from the fiber can be calculated by (correctly) assuming that
+    the beam exiting a single-mode fiber follows a Gaussian beam profile, and not by assuming the light behaves as a ray.
+    With this assumption in place the formula for beam size at a particular distance is:
+    \[\omega(z)=\omega_0\sqrt{1+\left(z\over z_0\right)^2}\]
+    where
+    <ul>
+      <li>\(\omega_0\) is the mode field radius, i.e. \(MFD \over 2\)</li>
+      <li>\(z_0={\pi{\omega_0}^2 \over \lambda}\) is the Rayleigh range, which measures how quickly the beam diverges</li>
+      <li>\(\lambda\) is the center wavelength of the laser</li>
+    </ul> 
+    
+  </p>
+
+
+  <p style="font-style: italic;">
+    Note: Laser safety is extremely important. The values given by this calculator are approximate
+    and not meant to replace proper safety protocols. Safety glasses with a proper OD value for the wavelength being used should be worn at 
+    all times. All values provided should be double checked independently.
+  </p>
+</body>
+
+</html>

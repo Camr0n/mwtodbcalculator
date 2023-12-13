@@ -45,10 +45,7 @@
             var mw = Math.pow(10, dbm / 10)
 
             // Display the result
-            counter += 1;
             document.getElementById("mwInput").value = stripValues(adjustUnit(mw));
-
-            document.getElementById("results").innerHTML = mw.toFixed(3) + " mW is equal to " + dbm.toFixed(3) + " dB" + "<br>" + document.getElementById("results").innerHTML;
         }
 
         function displaymW() {
@@ -58,31 +55,10 @@
 
             // Convert mW to dBm
             var dbm = 10 * Math.log10(mw);
-            
-            // Create a new div for the result
-            var newResult = document.createElement("div");
-            newResult.className = "item";
-            newResult.innerHTML = mw.toFixed(3) + " mW is equal to " + dbm.toFixed(3) + " dB";
 
-            // Get the current results div
-            var results = document.getElementById("results");
-
-            // Prepend the new result
-            results.insertBefore(newResult, results.firstChild);
-
-            // Get all the children of the results div
-            var children = results.children;
-
-            // Apply zebra effect
-            for (var i = 0; i < children.length; i++) {
-            if (i % 2 == 0) {
-                children[i].style.backgroundColor = "white";
-            } else {
-                children[i].style.backgroundColor = "#a3a5a8";
-            }
-            }
+            // Display the result
+            document.getElementById("dbmInput").value = dbm.toFixed(3);
         }
-
         function clearInput(inputId) {
             document.getElementById(inputId).value = '';
         }
@@ -93,7 +69,6 @@
             let str = String(val);
             return (str.replace(/[^\d.-]/g, "") || []);
         }
-
     </script>
 </head>
 
@@ -101,54 +76,40 @@
     
 
     
-    <h1>mW to dBm Converter 2</h1>
+    <h1>mW to dBm Converter</h1>
     <p id="subheading"> Use this simple calculator to find the appropriate power reference for your application.</p>
     
-    <div class="container">
-        <div class="item">
-            <input class="btn" type="number" inputmode="numeric" pattern="[0-9]*" id="mwInput" placeholder="1000 mW" oninput="displaymW()" onfocus="clearInput('mwInput')">
-            
-        </div>
-        <div class="item">
-            <input class="btn" type="number" inputmode="numeric" pattern="[0-9]*" id="dbmInput" placeholder="30 dBm" oninput="displaydBm()" onfocus="clearInput('dbmInput')"> 
-        </div>
-        <div class="item" id = "results"></div>
-      </div>
-
-    <div class="container">
-        <div class="item">
-            <div class="MuiFormControl-root MuiTextField-root">
-                <!-- <select name="unit" id="select-unit">
-                    <option value="Power in µW">Power in µW</option>
-                    <option value="mwInput">Power in mW</option>
-                    <option value="Power in W">Power in W</option>
-                    <option value="Power in kW">Power in kW</option>
-                  </select> -->
-                
-                <label id="mwLabel" for="mwInput"></label>
+    <div class="flex-container">
+        <div class="flex-row">
+            <div class="flex-item">
+                <div class="MuiFormControl-root MuiTextField-root">
+                    <input class="btn" type="number" inputmode="numeric" pattern="[0-9]*" id="mwInput" placeholder="1000 mW" oninput="displaymW()" onfocus="clearInput('mwInput')"> 
+                    <label id="mwLabel" for="mwInput">mW</label>
+                </div>    
             </div>
-        </div>    
-        
-        <div class="item">
-            <div class="MuiFormControl-root MuiTextField-root">
-                
-                    <label id="dbmLabel" for="dbmInput"></label>
+            
+            <div class="flex-item">
+                <div class="MuiFormControl-root MuiTextField-root">
+                    <input class="btn" type="number" inputmode="numeric" pattern="[0-9]*" id="dbmInput" placeholder="30 dBm" oninput="displaydBm()" onfocus="clearInput('dbmInput')"> 
+                    <label id="dbmLabel" for="dbmInput">dBm</label>
                 </div>
             </div>
         </div>
     
-            <div class="item">
+        <div class="flex-row">
+            <div class="flex-item">
                 
                 <p>
                     \[P_{mW}=1mW \times 10^{P_{dBm} \over 10}\]
                 </p>
             </div>
-            <div class="item">
+            <div class="flex-item">
                 
                 <p>
                     \[P_{dBm}=10log_{10}\left({P_{mW}\over 1mW}\right)\] 
                 </p>
             </div>
+        </div>
     </div>
       
 

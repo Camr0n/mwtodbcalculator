@@ -1,0 +1,246 @@
+<!--other ideas
+fresnel reflection calculator
+decibel-percent calculator
+beam divergence of different fiber at distance-->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="style.css">
+  <title>Frequency Converter</title>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+  <script type="text/javascript">
+    function adjustUnit(value) {
+      var units = ["nHz", "µHz", "mHz", "Hz", "kHz", "MHz", "GHz", "THz"];
+      var exponent = Math.floor(Math.log10(value) / 3);
+      var adjustedValue = value / Math.pow(1000, exponent);
+      document.getElementById("frequencyLabel").innerHTML = units[exponent + 3];
+      return adjustedValue.toFixed(6);
+    }
+
+    function adjustLinewidthUnit(value) {
+      var units = ["fm", "pm", "nm", "µm", "mm", "m", "km"];
+      var exponent = Math.floor(Math.log10(value) / 3);
+      if (exponent > 5) { exponent = 5; }
+      if (exponent < -1) { exponent = -1; }
+      var adjustedValue = value / Math.pow(1000, exponent);
+      document.getElementById("linewidthLabel").innerHTML = units[exponent + 1];
+      return adjustedValue.toFixed(6);
+    }
+
+    function adjustCoherenceUnit(value) {
+      var units = ["pm", "nm", "µm", "mm", "m", "km"];
+      var exponent = Math.floor(Math.log10(value) / 3);
+      if (exponent > 1) { exponent = 1; }
+      if (exponent < -4) { exponent = -4; }
+      var adjustedValue = value / Math.pow(1000, exponent);
+      document.getElementById("cohLengthLabel").innerHTML = units[exponent + 4];
+      return adjustedValue.toFixed(6);
+    }
+
+    function convertpmToHz(pm) {
+      //nm
+      var wavelength = parseFloat(document.getElementById("wavelengthInput").value);
+      // formula: delta_f=c/lambda^2 * delta_lambda
+      var Hz = pm * 299792458 / Math.pow(wavelength / 1000, 2);
+      //returns actual Hz
+      return Hz;
+    }
+
+    function convertHzTopm(Hz) {
+      //nm
+      var wavelength = parseFloat(document.getElementById("wavelengthInput").value);
+      //formula: linewidth=frq*lambda^2/c
+      var linewidth = (Hz * Math.pow(wavelength / 1000000000, 2)) / 299792458;
+      //pm
+      return linewidth * 1000000000000;
+
+    }
+
+    function convertHzToCoherenceLength(Hz) {
+      // Speed of light in a vacuum (meters per second)
+      var c = 299792458;
+
+      // Calculate coherence length (L = c / PI*Δν)
+      var coherenceLength = c / (Math.PI * Hz);
+
+      //m
+      return coherenceLength;
+    }
+
+    //convert coherence length in meters to Hz
+    function convertLengthToLinewidth(coh) {
+
+      // Speed of light in a vacuum (meters per second)
+      var c = 299792458;
+
+      // Calculate linewidth
+      var linewidthHz = c / (Math.PI * coh);
+
+      //Hz
+      return linewidthHz;
+    }
+
+    function displayCenterWavelength() {
+      // Get the value from the input field
+      var nm = parseFloat(document.getElementById("wavelengthInput").value);
+
+      // Convert nanometers to terahertz
+      var thz = 299792.458 / (nm);
+      thz = thz.toFixed(6);
+
+      // Display the result
+      document.getElementById("thzInput").value = thz;
+
+      //also update the other fields
+      displayLinewidth();
+    }
+
+    function displayCenterFrequency() {
+      // Get the value from the input field
+      var thz = parseFloat(document.getElementById("thzInput").value);
+      console.log(thz);
+
+      // Convert terahertz to nanometers
+      var nm = 299792.458 / thz;
+      nm = nm.toFixed(2);
+      // Display the result
+      console.log("nanometers");
+      console.log(nm);
+      document.getElementById("wavelengthInput").value = nm;
+      //also update the other fields
+      displayLinewidth();
+    }
+
+    function displayLinewidth() {
+      //get pm
+      var pm = parseFloat(document.getElementById("linewidthInput").value);
+      //calculate frequency
+      var freq = convertpmToHz(pm)
+      //calculate coherence length
+      var coh = convertHzToCoherenceLength(freq)
+      //display frequency
+      document.getElementById("kHzInput").value = adjustUnit(freq);
+      //display coherence length
+      document.getElementById("cohInput").value = adjustCoherenceUnit(coh);
+    }
+
+    function displayFrequency() {
+      //get freq
+      var freq = parseFloat(document.getElementById("kHzInput").value);
+      //calculate linewidth
+      var pm = convertHzTopm(freq * 1000)
+      //calculate coherence length
+      var coh = convertHzToCoherenceLength(freq * 1000)
+      //display frequency
+      document.getElementById("linewidthInput").value = adjustLinewidthUnit(pm);
+      //display coherence length
+      document.getElementById("cohInput").value = adjustCoherenceUnit(coh);
+    }
+    function displayCoherence() {
+      //get coherence length
+      var length = parseFloat(document.getElementById("cohInput").value);
+      //calculate linewidth
+      var freq = convertLengthToLinewidth(length);
+      //calculate frequency
+      var pm = convertHzTopm(freq);
+      //display frequency
+      document.getElementById("kHzInput").value = adjustUnit(freq);
+      //display coherence length
+      document.getElementById("linewidthInput").value = adjustLinewidthUnit(pm);
+    }
+
+    function clearInput(inputId) {
+      document.getElementById(inputId).value = '';
+    }
+
+    function clearInputpm(inputId) {
+      document.getElementById(inputId).value = '';
+      document.getElementById("linewidthLabel").innerHTML = "pm";
+    }
+
+    function clearInputkhz(inputId) {
+      document.getElementById(inputId).value = '';
+      document.getElementById("frequencyLabel").innerHTML = "kHz";
+    }
+
+    function clearInputcoh(inputId) {
+      document.getElementById(inputId).value = '';
+      document.getElementById("cohLengthLabel").innerHTML = "m";
+    }
+
+  </script>
+</head>
+
+<body>
+  <h1>Optical Frequency Calculator</h1>
+  <p>
+    Use this calculator to convert between optical bandwidth and coherence length.
+    <br /><br />
+    First enter either the Center Wavelength or equivalently the Center Frequency. Then enter any of the parameters and
+    the others
+    will be calculated in real-time.
+  </p>
+  <div class="form">
+    <label for="wavelengthInput">Center Wavelength: </label>
+    <input class="btn" type="number" inputmode="numeric" pattern="[0-9]*" id="wavelengthInput"
+      placeholder="Enter wavelength (nm)" oninput="displayCenterWavelength()" onfocus="clearInput('wavelengthInput')">
+    <label for="wavelengthInput">nm</label>
+    <br />
+    <p style="padding-left: 14em">or</p>
+
+    <label for="thzInput">Center Frequency: </label>
+    <input class="btn" type="number" inputmode="numeric" pattern="[0-9]*" id="thzInput"
+      placeholder="Enter frequency (THz)" oninput="displayCenterFrequency()" onfocus="clearInput('thzInput')">
+    <label id="thzLabel" for="thzInput">THz </label>
+    <br /><br />
+
+
+    <h2>Wavelength bandwidth</h2>
+    <div class="MuiFormControl-root MuiTextField-root">
+      <label for="linewidthInput">Enter the linewidth in <b>picometers (pm)</b>: </label>
+      <input class="btn" type="number" inputmode="numeric" pattern="[0-9]*" id="linewidthInput"
+        placeholder="Enter linewidth (pm)" oninput="displayLinewidth()" onfocus="clearInputpm('linewidthInput')">
+      <label id="linewidthLabel" for="linewidthInput">pm </label>
+    </div>
+    <br />
+
+    <h2>Linewidth</h2>
+    <div class="MuiFormControl-root MuiTextField-root">
+      <label for="kHzInput">Enter the linewidth in <b>kilohertz (kHz)</b>: </label>
+      <input class="btn" type="number" inputmode="numeric" pattern="[0-9]*" id="kHzInput"
+        placeholder="Enter frequency (kHz)" oninput="displayFrequency()" onfocus="clearInputkhz('kHzInput')">
+      <label id="frequencyLabel" for="kHzInput">kHz</label>
+    </div>
+    <br />
+    <p>
+      Optical bandwidth is typically expressed in either frequency or wavelength intervals. The conversion between the
+      two is non-intuitive.
+      If we assume a reasonably small wavelength interval we can convert to a frequency interval via
+      \[\Delta\nu = {c \over {\lambda^2}} \Delta\lambda \]
+      where \(\lambda\) is the center wavelength and \(\Delta\lambda\) is the wavelength bandwidth.
+    </p>
+
+    <h2>Coherence Length</h2>
+    <div class="MuiFormControl-root MuiTextField-root">
+      <label for="cohInput">Enter the coherence length in <b>meters (m)</b>: </label>
+      <input class="btn" type="number" inputmode="numeric" pattern="[0-9]*" id="cohInput"
+        placeholder="Enter coh. length (m)" oninput="displayCoherence()" onfocus="clearInputcoh('cohInput')">
+      <label id="cohLengthLabel" for="cohInput">m</label>
+    </div>
+    <br />
+  </div>
+  <p>
+    Coherence length can be calculated as \[L_{coherence} ={c \over \pi\Delta\nu}\] where \(\Delta\nu \) is the
+    linewidth (in meters).
+    The coherence length of a laser is a measure of the spatial or temporal extent over which the electromagnetic waves
+    emitted by the
+    laser maintain a constant phase relationship. In simpler terms, it describes how "organized" or "ordered" the waves
+    are.
+  </p>
+</body>
+
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="style.css">
+  <title>dB to Percent Calculator</title>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+  <script type="text/javascript">
+    function displayPercent() {
+      // Get the value from the input field
+      var percent = parseFloat(document.getElementById("percentInput").value);
+
+      // Convert nanometers to terahertz
+      var dB = 10*Math.log10(1+(percent/100));
+      dB=dB.toFixed(3);
+
+      // Display the result
+      document.getElementById("dBInput").value = dB;
+    }
+
+    function displaydB() {
+      // Get the value from the input field
+      var dB = parseFloat(document.getElementById("dBInput").value);
+
+      // Convert terahertz to nanometers
+      var perc = 100*(Math.pow(10,dB/10)-1);
+      perc=perc.toFixed(2);
+      // Display the result
+      document.getElementById("percentInput").value = perc;
+    }
+    function clearInput(inputId) {
+      document.getElementById(inputId).value = '';
+    }
+
+  </script>
+</head>
+<body>
+  <h1>dB to Percent Calculator</h1>
+  <p>Converting power meter specifications into applicable values can sometimes be a challenge.
+    Absolute power accuracy is typically expressed as a percentage value and represents the maximum 
+    allowable deviation between the measured power and the actual (true) power of an optical signal.
+    It tells you how accurately the power meter can determine the real optical power.
+    <p>
+      For example, a 2.7% absolute accuracy (the specifed value of a santec OPM-200)
+    implies that at the reference conditions (-10dBm in this case) the accuracy is \(\pm \)0.11dB.
+    But what does this really mean? And where did the 0.11dB come from?
+    </p>
+    <p>
+    First, the absolute accuracy of 0.11dB indicates that if you were to input a true power of exactly -10dBm (according to NIST or another national 
+    laboratory standard) then the OPM-200 will correctly deduce and show that this power is between -9.89dBm and -10.11dBm.
+    </p>
+    <p>
+      To transfer between the absolute accuracy in percent and the dB value use the calculator below.
+    </p>
+  </p>
+  <h2>Percentage Change</h2>
+    <div class="MuiFormControl-root MuiTextField-root">
+      <input class="btn" type="number" inputmode="numeric" pattern="[0-9]*" id="percentInput"
+        placeholder="Enter spec in %" oninput="displayPercent()" onfocus="clearInput('percentInput')">
+      <label id="percentLabel" for="percentInput">% </label>
+    </div>
+
+    <h2>dB</h2>
+    <div class="MuiFormControl-root MuiTextField-root">
+      <input class="btn" type="number" inputmode="numeric" pattern="[0-9]*" id="dBInput"
+        placeholder="Enter spec in dB" oninput="displaydB()" onfocus="clearInput('dBInput')">
+      <label id="dBLabel" for="dBInput">dB </label>
+    </div>
+
+    <p>
+      The formula used to find dB from the absolute accuracy or percentage change is 
+      \[dB=10 \times log10\left(1+{percentage\over 100}\right)\]
+      To convert back to percentage use
+      \[Percentage=100\times \left( 10^{dB \over 10}-1\right)\]
+    </p>
+
+    
+    <p style="font-style: italic;">
+      Note: This calculator differs from other "decibel-percent" calculators on the web. Those calculators
+      typically provide an absolute conversion between dB and percent. Here we deal with the percentage change only.
+    </p>
+</body>
+</html>

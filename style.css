@@ -1,0 +1,95 @@
+body, html {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: whitesmoke;
+  overflow: scroll;
+  font-family: 'Segoe UI','sans-serif';
+}
+
+h1 {
+  text-align: center;
+  font-size: 52px;
+}
+
+
+#subheading {
+  text-align: center;
+  font-size: 16px;
+  color: #777574;
+}
+
+
+
+/*
+Flex box STUFF
+*/
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  
+}
+
+.flex-row {
+  
+  display: flex;
+  justify-content: space-evenly; /* space-evenly: items are distributed so that the spacing between any two adjacent alignment subjects, before the first alignment subject, and after the last alignment subject is the same */
+  width: 50%;
+}
+
+.flex-item {
+  flex: 1; /* Each item takes an equal amount of available space */
+  height: 150px; /* Adjust the height as needed */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #3498db; /* Background color for the items */
+  margin: 5px; /* Add margin for spacing */
+  font-size: 24px; /* Adjust the font size as needed */
+}
+
+
+#mwInput, #dbmInput {
+  width: 200px; /* Adjust the width as needed to make them bigger */
+  height: 40px; /* Adjust the height as needed */
+  font-size: 18px; /* Increase the font size as needed */
+  padding: 10px; /* Adjust the padding for better appearance */
+}
+
+/*
+TABLE STUFF
+*/
+
+table {
+  margin: 0 auto;
+  border-collapse: collapse;
+  width: 1000px; /* Set a fixed width for the table */
+}
+
+table th, table td {
+  text-align: left;
+  padding: 8px;
+}
+
+table th {
+  border-bottom: 1px solid black; /* Keep the horizontal border on the header row */
+  width: 50%;
+}
+
+table td {
+  border-bottom: 1px solid black; /* Add horizontal borders on data rows */
+  width: 50%;
+}
+
+table tr td:first-child {
+  border-left: none; /* Remove the left border for the first column in each row */
+}
+
+table tr td:last-child {
+  border-right: none; /* Remove the right border for the last column in each row */
+}
