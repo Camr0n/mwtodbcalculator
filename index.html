@@ -11,6 +11,16 @@
         </script>
     <script type="text/javascript"> 
         
+        function start() {
+            var count = 0;
+            var intervalId = setInterval(function() {
+                count++;
+                if (count === 5) {
+                    clearInterval(intervalId);
+                }
+            }, 1000);
+        }
+
         function adjustUnit(value) {
             console.log("value adjusted");
             var units = ["fW", "pW", "nW", "µW", "mW", "W", "kW", "MW", "GW", "TW"];
@@ -38,21 +48,32 @@
                    
         }
 
-        function displaymW() {
-            document.getElementById("mwLabel").innerHTML = 'mW (Milliwatt)';
-            document.getElementById("dbmLabel").innerHTML = 'dBm or dBmW (decibel-milliwatts) ';
-            // Get the value from the input field
-            var mw = parseFloat(document.getElementById("mwInput").value);
-            //mw = parseFloat(mw.toFixed(3)); // This will round to 3 decimal places and remove trailing zeros
-            console.log(mw);
+        function displaymW(inputmw) {
+            if (isNaN(inputmw)) {
+                document.getElementById("mwLabel").innerHTML = 'mW (milliwatt)';
+                document.getElementById("dbmLabel").innerHTML = 'dBm (decibel-milliwatts) ';
+                
+                // Get the value from the input field
+                var mw = parseFloat(document.getElementById("mwInput").value);
+                
+                //mw = parseFloat(mw.toFixed(3)); // This will round to 3 decimal places and remove trailing zeros
+                console.log(mw);
 
-            // Convert mW to dBm
-            var dbm = 10 * Math.log10(mw);
-            console.log(dbm);
+                // Convert mW to dBm
+                var dbm = 10 * Math.log10(mw);
+                console.log(dbm);
+                
+                updateResults(mw, dbm);
+                //change dBm input field when mW input field is changed
+                document.getElementById("dbmInput").value = dbm;
+            } else {
+                var mw = parseFloat(inputmw);
+                var dbm = 10 * Math.log10(mw);
+                console.log(dbm);
+                //document.getElementById("dbmInput").value = dbm;
+                updateResults(mw, dbm);
+            }
             
-            updateResults(mw, dbm);
-             //change dBm input field when mW input field is changed
-            document.getElementById("dbmInput").value = dbm;
 
             //dbm.toFixed(3);
         }
@@ -70,11 +91,11 @@
             if (Number.isInteger(newmW) && Number.isInteger(newdBm)) {
                 newResult.innerHTML = newmW + " mW is equal to " + newdBm + " dBm";
             } else if (Number.isInteger(newmW) && !Number.isInteger(newdBm)) {
-                newResult.innerHTML = newmW + " mW is equal to " + newdBm.toPrecision(3) + " dBm";
+                newResult.innerHTML = newmW + " mW is equal to " + newdBm.toFixed(3) + " dBm";
             } else if (!Number.isInteger(newmW) && Number.isInteger(newdBm)) {
-                newResult.innerHTML = newmW.toPrecision(3) + " mW is equal to " + newdBm + " dBm";
+                newResult.innerHTML = newmW.toFixed(3) + " mW is equal to " + newdBm + " dBm";
             } else {
-                newResult.innerHTML = newmW.toPrecision(3) + " mW is equal to " + newdBm.toPrecision(3) + " dBm";
+                newResult.innerHTML = newmW.toFixed(3) + " mW is equal to " + newdBm.toFixed(3) + " dBm";
             }
             // newResult.innerHTML = newmW + " mW is equal to " + newdBm + " dBm";
 
@@ -146,6 +167,15 @@ onfocus="clearInput('dbmInput')" -->
         </div>
         <div class="item" id = "results"></div>
       </div>
+      
+      
+      <script>
+        setTimeout(function() { displaymW(1); }, 1000);
+        setTimeout(function() { displaymW(10); }, 2000);
+        setTimeout(function() { displaymW(100); }, 3000);
+        setTimeout(function() { displaymW(1000); }, 4000);
+        setTimeout(function() { displaymW(10000); }, 5000);
+    </script>
 
     <!-- <div class="container">
         <div class="item">
