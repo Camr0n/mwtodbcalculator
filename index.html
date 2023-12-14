@@ -39,7 +39,8 @@
         }
 
         function displaymW() {
-            //document.getElementById("mwLabel").innerHTML = 'mW';
+            document.getElementById("mwLabel").innerHTML = 'mW';
+            document.getElementById("dbmLabel").innerHTML = 'dBm';
             // Get the value from the input field
             var mw = parseFloat(document.getElementById("mwInput").value);
             console.log(mw);
@@ -54,6 +55,11 @@
         }
 
         function updateResults(newmW, newdBm) {
+            //Check if calculation is a real number
+            if (isNaN(newmW) || isNaN(newdBm)) {
+                return;
+            }
+            
             // Create a new div for the result
             var newResult = document.createElement("div");
             newResult.className = "item-result";
@@ -69,8 +75,8 @@
             var children = results.children;
 
             // If there are more than 5 results, remove the oldest one
-            if (children.length > 5) {
-                    results.removeChild(children[5]);
+            if (children.length > 8) {
+                    results.removeChild(children[children.length - 1]);
                 }
 
             // Apply zebra effect
@@ -102,8 +108,10 @@
 <body>
     
 
-
+<!-- onfocus="clearInput('mwInput')"
+onfocus="clearInput('dbmInput')" -->
     
+
     <div class="container">
         <div class = "item" id = "headline">
             <h1>mW to dBm Converter</h1>
@@ -112,12 +120,13 @@
             <p> Use this simple calculator to find the appropriate power reference for your application.</p>
         </div>
         <div class="item">
-            <!-- <span id="mwLabel"></span> -->
-            <input class="btn" type="number" inputmode="numeric" pattern="[0-9]*" id="mwInput" placeholder="1000 mW" oninput="displaymW()" onfocus="clearInput('mwInput')">
+            
+            <input class="btn" type="number" inputmode="numeric" pattern="[0-9]*" id="mwInput" placeholder="1000 mW"  oninput="displaymW()">
+            <span id="mwLabel"></span>
         </div>
         <div class="item">
-            <input class="btn" type="number" inputmode="numeric" pattern="[0-9]*" id="dbmInput" placeholder="30 dBm" oninput="displaydBm()" onfocus="clearInput('dbmInput')"> 
-            <!-- <span id="dbmUnit">dBm</span> -->
+            <input class="btn" type="number" inputmode="numeric" pattern="[0-9]*" id="dbmInput" placeholder="30 dBm" oninput="displaydBm()"> 
+            <span id="dbmLabel"></span>
         </div>
         <div class="item" id = "results">
             <label id="mwLabel" for="mwInput"></label>

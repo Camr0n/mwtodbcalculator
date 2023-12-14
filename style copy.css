@@ -65,3 +65,11 @@ select {
 #results .item {
   flex-grow: 1;
 }
+
+#mwInput {
+  max-width: 150px;  /* Adjust this value as needed */
+}
+
+#dbmInput {
+  max-width: 150px;  /* Adjust this value as needed */
+}
