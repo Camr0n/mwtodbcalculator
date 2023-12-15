@@ -3,7 +3,7 @@
 
 <head>
      
-    <link rel="stylesheet" href="style copy.css">
+    <link rel="stylesheet" href="style.css">
     <title>	Convert dBm to mW Calculator, db to mW Conversion Chart, db to mW Excel Formula, db to mW Math Formula </title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script type="text/javascript" id="MathJax-script" async
@@ -109,9 +109,9 @@
             var children = results.children;
 
             // If there are more than 5 results, remove the oldest one
-            if (children.length > 8) {
-                    results.removeChild(children[children.length - 1]);
-                }
+            // if (children.length > 8) {
+            //         results.removeChild(children[children.length - 1]);
+            //     }
 
             // Apply zebra effect
             for (var i = 0; i < children.length; i++) {
@@ -162,10 +162,13 @@ onfocus="clearInput('dbmInput')" -->
             <input class="btn" type="number" inputmode="numeric" pattern="[0-9]*" id="dbmInput" placeholder="30 dBm" oninput="displaydBm()"> 
             <span id="dbmLabel"></span>
         </div>
-        <div class="item" id = "results">
+        <!-- <div class="item" id = "results">
             <label id="mwLabel" for="mwInput"></label>
-        </div>
+        </div> -->
         <div class="item" id = "results"></div>
+        <div class="item" id = "logo">
+            <img src="santec logo horizontal.webp" alt="santec logo">
+        </div>
       </div>
       
       

@@ -59,11 +59,14 @@ select {
 #results {
   display: flex;
   flex-direction: column;
-  height: 100%; /* Set to the desired height */
+  height: 200px; /* Set to the desired height */
+  overflow-y: auto; /* Enable vertical scrolling */
 }
 
 #results .item {
   flex-grow: 1;
+  max-height: 100px; /* Set to the desired height */
+  overflow-y: auto; /* Enable vertical scrolling */
 }
 
 #mwInput {
@@ -72,4 +75,11 @@ select {
 
 #dbmInput {
   max-width: 150px;  /* Adjust this value as needed */
+}
+
+#logo {
+  width: 100%;
+  height: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
