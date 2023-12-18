@@ -3,7 +3,7 @@
 
 <head>
      
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style calculator.css">
     <title>	Convert dBm to mW Calculator, db to mW Conversion Chart, db to mW Excel Formula, db to mW Math Formula </title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script type="text/javascript" id="MathJax-script" async
@@ -151,19 +151,23 @@ onfocus="clearInput('dbmInput')" -->
         <p> Use this simple calculator to find the appropriate power reference for your application. This is a common conversion when <a href="http://inst.santec.com" title="Testing Fiber Optic Cables">testing fiber optic cables</a></p>
         <div class="item">
             
-            <input class="btn" type="number" inputmode="numeric" pattern="[0-9]*" id="mwInput" placeholder="1000 mW"  oninput="displaymW()">
+            <input class="btn" type="number" inputmode="decimal" pattern="\d+(\.\d{1,2})?" id="mwInput" placeholder="1000 mW"  oninput="displaymW()">
             <span id="mwLabel"></span>
         </div>
         <div class="item">
-            <input class="btn" type="number" inputmode="numeric" pattern="[0-9]*" id="dbmInput" placeholder="30 dBm" oninput="displaydBm()"> 
+            <input class="btn" type="number" inputmode="decimal" pattern="\d+(\.\d{1,2})?" id="dbmInput" placeholder="30 dBm" oninput="displaydBm()"> 
             <span id="dbmLabel"></span>
         </div>
         <!-- <div class="item" id = "results">
             <label id="mwLabel" for="mwInput"></label>
         </div> -->
-        <div class="item" id = "results"></div>
-        <div class="item" id = "logo">
-            <img src="santec logo horizontal.webp" alt="santec logo">
+        <div class="item" id = "results">
+
+        </div>
+        <div class="item">
+            <img id="tinyLogo" src="santec logo horizontal.webp" alt="Santec Logo">
+          </div>
+            
         </div>
       </div>
       
