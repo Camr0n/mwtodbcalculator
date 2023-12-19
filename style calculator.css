@@ -5,7 +5,16 @@
     h1 {
       font-size: 2.25em; /* 36px / 16 = 2.25em */
     }
+    h2 {
+      font-size: 1.5em; /* 24px / 16 = 1.5em */
+    }
   }
+}
+
+h2 {
+  font-size: 1.5em; /* 24px / 16 = 1.5em */
+  font-family: "Helvetica Neue", Arial, sans-serif;
+
 }
 
 #headline {
@@ -17,6 +26,15 @@
   text-align: left;
 }
 
+#wm-dbm-use-cases {
+  text-align: left;
+}
+
+ul {
+  font-size: 1em; /* 16px / 16 = 1em */
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  text-align: left;
+}
 
 h1 {
   text-align: center;
@@ -135,4 +153,8 @@ select {
 #legend {
   max-width: 300px;
   text-align: left;
+}
+
+.item .btn {
+  width: 100%; /* or any specific width you want */
 }

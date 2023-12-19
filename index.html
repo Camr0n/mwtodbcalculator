@@ -32,6 +32,9 @@
         }
 
         function displaydBm() {
+            document.getElementById("mwLabel").innerHTML = 'mW';
+            document.getElementById("dbmLabel").innerHTML = 'dBm';
+
             // Get the value from the input field
             var dbm = parseFloat(document.getElementById("dbmInput").value);
             // console.log("dbm");
@@ -43,8 +46,10 @@
             updateResults(mw, dbm);
 
             //change mW input field when dBm input field is changed
-            document.getElementById("mwInput").value = stripValues((mw));
-
+            // if mw > 1000
+            document.getElementById("mwInput").value = mw;
+            console.log(mw);
+            console.log(dbm);
                    
         }
 
@@ -58,10 +63,10 @@
                 
                 //mw = parseFloat(mw.toFixed(3)); // This will round to 3 decimal places and remove trailing zeros
                 console.log(mw);
-
+                console.log(dbm);
                 // Convert mW to dBm
                 var dbm = 10 * Math.log10(mw);
-                console.log(dbm);
+                
                 
                 updateResults(mw, dbm);
                 //change dBm input field when mW input field is changed
@@ -84,6 +89,9 @@
                 return;
             }
             
+            //Make commas for thousands
+            newmW = newmW.toLocaleString();
+
             // Create a new div for the result
             var newResult = document.createElement("div");
             newResult.className = "item-result";
@@ -93,9 +101,9 @@
             } else if (Number.isInteger(newmW) && !Number.isInteger(newdBm)) {
                 newResult.innerHTML = newmW + " mW is equal to " + newdBm.toFixed(3) + " dBm";
             } else if (!Number.isInteger(newmW) && Number.isInteger(newdBm)) {
-                newResult.innerHTML = newmW.toFixed(3) + " mW is equal to " + newdBm + " dBm";
+                newResult.innerHTML = newmW + " mW is equal to " + newdBm + " dBm";
             } else {
-                newResult.innerHTML = newmW.toFixed(3) + " mW is equal to " + newdBm.toFixed(3) + " dBm";
+                newResult.innerHTML = newmW + " mW is equal to " + newdBm.toFixed(3) + " dBm";
             }
             // newResult.innerHTML = newmW + " mW is equal to " + newdBm + " dBm";
 
@@ -140,6 +148,8 @@
                 alert('mW cannot be a negative number because the logarithmic function is defined for only postive real numbers. Please enter a positive number.');
                 input.value = '';
             }
+            document.getElementById('mwInput').value = '';
+            document.getElementById('dbmInput').value = '';
         }
     </script>
 </head>
@@ -159,29 +169,68 @@ onfocus="clearInput('dbmInput')" -->
             <input class="btn" type="number" inputmode="decimal" pattern="\d+(\.\d{1,2})?" id="mwInput" placeholder="1000 mW"  
             min="0" oninput="displaymW()" onchange="validateInput(this)">
             <span id="mwLabel"></span>
-        </div>
-        <div class="item">
-            <input class="btn" type="numeric" inputmode="decimal" pattern="\d+(\.\d{1,2})?" id="dbmInput" placeholder="30 dBm" 
+            <input class="btn" type="number" inputmode="decimal" pattern="\d+(\.\d{1,2})?" id="dbmInput" placeholder="30 dBm" 
             min="-60" oninput="displaydBm()"> 
             <span id="dbmLabel"></span>
         </div>
+        <!-- <div class="item">
+            <button onclick="console.log('convert')">convert</button>
+            <button onclick="console.log('clear')">clear</button>
+            <button onclick="console.log('copy')">copy</button>
+        </div> -->
         <!-- <div class="item" id = "results">
             <label id="mwLabel" for="mwInput"></label>
         </div> -->
         <div class="item" id = "results">
 
         </div>
-        <p id = "mw-dbm-legend"> dBm or dBmW (decibel-milliwatts) is a unit of level used to indicate that a power level is expressed in decibels (dB) with reference to one milliwatt (mW).
+
+        <!-- <h2>Frequently Asked Questions</h2>
+            <h3>What is dBm?</h3>
+
+        <p id = "mw-dbm-legend"> dBm or dBmW (decibel-milliwatts) is a unit of level used to indicate that a power level is 
+            expressed in decibels (dB) with reference to one milliwatt (mW).
             
             \[P_{dBm}=10log_{10}\left({P_{mW}\over 1mW}\right)\]  
             \[P_{mW}=1mW \times 10^{P_{dBm} \over 10}\]
-            This is a common conversion when <a href="http://inst.santec.com" title="Testing Fiber Optic Cables">testing fiber optic cables</a></p>
+            This is a common conversion when <a href="http://inst.santec.com" title="Testing Fiber Optic Cables">
+                testing fiber optic cables</a>
+        </p>
+             
+        <h2>Common uses for mW to dBm conversion.</h2>
+        <p>
+            <ul id ="common-uses">
+                <li>Power Budget Calculations</li>
+                <li>Radio Frequency (RF) Power Levels</li>
+                <li>Fiber Optic Signal Strength:</li>
+                <li>Power Budget Calculations</li>
+                <li>Power Amplifier Specifications</li>
+                <li>Network Signal Strength</li>
+                <li>Optical Transceiver Output</li>
+            </ul>
+        </p>
+            
+            <p>Converting power levels to dBm provides a logarithmic scale that is convenient for expressing a wide range of values in a more manageable and meaningful way, especially in fields where large variations in power levels are common.</p>
+    
         <div class="item">
-            <img id="tinyLogo" src="santec logo horizontal.webp" alt="Santec Logo">
+            <h2>Frequently Asked Questions</h2>
+            <h3>What is dBm?</h3>
+            <p>dBm or dBmW (decibel-milliwatts) is a unit of level used to indicate that a power level is expressed in decibels (dB) with reference to one milliwatt (mW). </p>
+            <h3>How do you convert dBm to mW?</h3>
+            <h3>Is it dBm or mW?</h3>
+            <h3>How many dBm is 0.5 mW?</h3>
+            <h3>How many milliwatts is 13dbm?</h3> -->
+
+
+            <div class="item">
+            <a href="http://inst.santec.com">
+                <img id="tinyLogo" src="santec logo horizontal.webp" alt="Santec Logo">
+              </a>
           </div>
             
         </div>
       </div>
+      
       
       
       <script>
