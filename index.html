@@ -135,7 +135,12 @@
             return (str.replace(/[^\d.-]/g, "") || []);
         }
 
-       
+        function validateInput(input) {
+            if (input.value < 0) {
+                alert('mW cannot be a negative number because the logarithmic function is defined for only postive real numbers. Please enter a positive number.');
+                input.value = '';
+            }
+        }
     </script>
 </head>
 
@@ -148,14 +153,16 @@ onfocus="clearInput('dbmInput')" -->
 
     <div class="container">
         <h1>mW to dBm Converter</h1>
-        <p> Use this simple calculator to find the appropriate power reference for your application. This is a common conversion when <a href="http://inst.santec.com" title="Testing Fiber Optic Cables">testing fiber optic cables</a></p>
+        <p>Use this simple mw to dbm converter to find the appropriate power reference for your application. </p>
         <div class="item">
             
-            <input class="btn" type="number" inputmode="decimal" pattern="\d+(\.\d{1,2})?" id="mwInput" placeholder="1000 mW"  oninput="displaymW()">
+            <input class="btn" type="number" inputmode="decimal" pattern="\d+(\.\d{1,2})?" id="mwInput" placeholder="1000 mW"  
+            min="0" oninput="displaymW()" onchange="validateInput(this)">
             <span id="mwLabel"></span>
         </div>
         <div class="item">
-            <input class="btn" type="number" inputmode="decimal" pattern="\d+(\.\d{1,2})?" id="dbmInput" placeholder="30 dBm" oninput="displaydBm()"> 
+            <input class="btn" type="number" inputmode="decimal" pattern="\d+(\.\d{1,2})?" id="dbmInput" placeholder="30 dBm" 
+            min="-60" oninput="displaydBm()"> 
             <span id="dbmLabel"></span>
         </div>
         <!-- <div class="item" id = "results">
@@ -164,6 +171,11 @@ onfocus="clearInput('dbmInput')" -->
         <div class="item" id = "results">
 
         </div>
+        <p id = "mw-dbm-legend"> dBm or dBmW (decibel-milliwatts) is a unit of level used to indicate that a power level is expressed in decibels (dB) with reference to one milliwatt (mW).
+            
+            \[P_{dBm}=10log_{10}\left({P_{mW}\over 1mW}\right)\]  
+            \[P_{mW}=1mW \times 10^{P_{dBm} \over 10}\]
+            This is a common conversion when <a href="http://inst.santec.com" title="Testing Fiber Optic Cables">testing fiber optic cables</a></p>
         <div class="item">
             <img id="tinyLogo" src="santec logo horizontal.webp" alt="Santec Logo">
           </div>
