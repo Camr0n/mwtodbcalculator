@@ -108,7 +108,7 @@ select {
   display: flex;
   flex-direction: column;
   height: 200px; /* Set to the desired height */
-  overflow-y: auto; /* Enable vertical scrolling */
+  /* overflow-y: auto; Enable vertical scrolling */
 }
 
 #results .item {

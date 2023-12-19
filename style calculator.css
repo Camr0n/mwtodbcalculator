@@ -120,7 +120,7 @@ select {
   display: flex;
   flex-direction: column;
   height: 12.5em; /* 200px / 16 = 12.5em */
-  overflow-y: auto;
+  /* overflow-y: auto; */
 }
 
 #results .item {

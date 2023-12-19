@@ -116,10 +116,10 @@
             // Get all the children of the results div
             var children = results.children;
 
-            // If there are more than 5 results, remove the oldest one
-            // if (children.length > 8) {
-            //         results.removeChild(children[children.length - 1]);
-            //     }
+            //If there are more than 5 results, remove the oldest one
+            if (children.length > 5) {
+                    results.removeChild(children[children.length - 1]);
+                }
 
             // Apply zebra effect
             for (var i = 0; i < children.length; i++) {
